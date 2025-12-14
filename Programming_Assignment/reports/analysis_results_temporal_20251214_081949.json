@@ -1,0 +1,79 @@
+{
+  "analysis_type": "temporal_analysis",
+  "time_period": {
+    "start_date": "2025-06-17T08:19:49.014240",
+    "end_date": "2025-12-14T08:19:49.014240",
+    "days": 180
+  },
+  "total_crashes": 8417,
+  "hourly_distribution": {
+    "0": 123,
+    "1": 72,
+    "2": 81,
+    "3": 80,
+    "4": 72,
+    "5": 135,
+    "6": 190,
+    "7": 436,
+    "8": 476,
+    "9": 406,
+    "10": 409,
+    "11": 384,
+    "12": 495,
+    "13": 552,
+    "14": 544,
+    "15": 683,
+    "16": 645,
+    "17": 701,
+    "18": 535,
+    "19": 443,
+    "20": 318,
+    "21": 296,
+    "22": 212,
+    "23": 129
+  },
+  "daily_distribution": {
+    "Sunday": 895,
+    "Monday": 1129,
+    "Tuesday": 1355,
+    "Wednesday": 1218,
+    "Thursday": 1336,
+    "Friday": 1406,
+    "Saturday": 1078
+  },
+  "monthly_distribution": {
+    "June": 653,
+    "July": 1472,
+    "August": 1368,
+    "September": 1581,
+    "October": 1719,
+    "November": 1552,
+    "December": 72
+  },
+  "peak_hours": {
+    "peak_hour": 17,
+    "peak_count": 701,
+    "morning_rush_crashes": 1318,
+    "evening_rush_crashes": 1881,
+    "rush_hour_percentage": 38.006415587501486
+  },
+  "weekend_vs_weekday": {
+    "weekend_crashes": 1973,
+    "weekday_crashes": 6444,
+    "weekend_ratio": 0.23440655815611264,
+    "weekday_ratio": 0.7655934418438873,
+    "weekend_to_weekday_ratio": 0.30617628801986346
+  },
+  "seasonal_patterns": {
+    "seasonal_distribution": {
+      "Fall": 4852,
+      "Summer": 3493,
+      "Winter": 72
+    },
+    "peak_season": "Fall",
+    "seasonal_variation": 0.8778699373436669
+  },
+  "temporal_correlations": {
+    "hour_severity_correlation": -0.03004346017106639
+  }
+}

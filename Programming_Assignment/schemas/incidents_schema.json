@@ -1,0 +1,251 @@
+{
+  "collection": "incidents",
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "required": ["tamainid", "crash_details"],
+      "properties": {
+        "tamainid": {
+          "bsonType": "int",
+          "description": "Unique incident identifier"
+        },
+        "location": {
+          "bsonType": "object",
+          "properties": {
+            "description": {
+              "bsonType": "string",
+              "description": "Location description"
+            },
+            "coordinates": {
+              "bsonType": "object",
+              "properties": {
+                "longitude": {
+                  "bsonType": "double",
+                  "minimum": -180,
+                  "maximum": 180,
+                  "description": "Longitude coordinate"
+                },
+                "latitude": {
+                  "bsonType": "double",
+                  "minimum": -90,
+                  "maximum": 90,
+                  "description": "Latitude coordinate"
+                }
+              },
+              "description": "Geographic coordinates"
+            }
+          }
+        },
+        "road_characteristics": {
+          "bsonType": "object",
+          "properties": {
+            "features": {
+              "bsonType": "string",
+              "description": "Road special features"
+            },
+            "characteristics": {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string"
+              },
+              "description": "Road characteristics (straight, curve, grade, etc.)"
+            },
+            "class": {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string"
+              },
+              "description": "Road classification"
+            },
+            "configuration": {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string"
+              },
+              "description": "Road configuration"
+            },
+            "surface": {
+              "bsonType": "string",
+              "description": "Road surface type"
+            },
+            "condition": {
+              "bsonType": "string",
+              "description": "Road condition"
+            }
+          }
+        },
+        "environmental_factors": {
+          "bsonType": "object",
+          "properties": {
+            "light_condition": {
+              "bsonType": "string",
+              "description": "Lighting conditions"
+            },
+            "weather": {
+              "bsonType": "string",
+              "description": "Weather conditions"
+            },
+            "traffic_control": {
+              "bsonType": "string",
+              "description": "Traffic control present"
+            }
+          }
+        },
+        "crash_details": {
+          "bsonType": "object",
+          "properties": {
+            "crash_date": {
+              "bsonType": "date",
+              "description": "Crash date and time"
+            },
+            "ta_date": {
+              "bsonType": "date",
+              "description": "Traffic accident date"
+            },
+            "ta_time": {
+              "bsonType": "string",
+              "description": "Traffic accident time"
+            },
+            "fatality": {
+              "bsonType": "int",
+              "minimum": 0,
+              "description": "Number of fatalities"
+            },
+            "possible_injuries": {
+              "bsonType": "int",
+              "minimum": 0,
+              "description": "Number of possible injuries"
+            },
+            "fatalities_flag": {
+              "bsonType": "string",
+              "enum": ["Yes", "No", "Unknown"],
+              "description": "Fatality flag"
+            },
+            "injuries_flag": {
+              "bsonType": "string",
+              "enum": ["Yes", "No", "Unknown"],
+              "description": "Injury flag"
+            },
+            "num_passengers": {
+              "bsonType": "int",
+              "minimum": 0,
+              "description": "Number of passengers"
+            },
+            "num_pedestrians": {
+              "bsonType": "int",
+              "minimum": 0,
+              "description": "Number of pedestrians"
+            },
+            "work_area": {
+              "bsonType": "string",
+              "enum": ["Yes", "No", "Unknown"],
+              "description": "Work area present"
+            }
+          }
+        },
+        "vehicles": {
+          "bsonType": "array",
+          "items": {
+            "bsonType": "object",
+            "properties": {
+              "vehicle_number": {
+                "bsonType": "int",
+                "minimum": 1,
+                "maximum": 5,
+                "description": "Vehicle sequence number"
+              },
+              "vehicle_type": {
+                "bsonType": "string",
+                "description": "Type of vehicle"
+              },
+              "vehicle_type_general": {
+                "bsonType": "string",
+                "description": "General vehicle category"
+              },
+              "contributing_factor": {
+                "bsonType": "string",
+                "description": "Contributing factor for this vehicle"
+              }
+            }
+          },
+          "maxItems": 5,
+          "description": "Vehicles involved in incident"
+        },
+        "year": {
+          "bsonType": "string",
+          "description": "Year of incident"
+        },
+        "month": {
+          "bsonType": "string",
+          "description": "Month of incident"
+        },
+        "contributing_factors": {
+          "bsonType": "array",
+          "items": {
+            "bsonType": "string"
+          },
+          "description": "Contributing factors for crash"
+        },
+        "vehicle_types": {
+          "bsonType": "array",
+          "items": {
+            "bsonType": "string"
+          },
+          "description": "Types of vehicles involved"
+        },
+        "metadata": {
+          "bsonType": "object",
+          "properties": {
+            "source": {
+              "bsonType": "string",
+              "description": "Data source"
+            },
+            "processed_date": {
+              "bsonType": "date",
+              "description": "Date of processing"
+            },
+            "original_id": {
+              "bsonType": "string",
+              "description": "Original record ID"
+            }
+          }
+        }
+      }
+    }
+  },
+  "indexes": [
+    {
+      "name": "tamainid_unique",
+      "fields": [{"tamainid": 1}],
+      "options": {
+        "unique": true,
+        "background": true
+      }
+    },
+    {
+      "name": "crash_date_desc",
+      "fields": [{"crash_details.crash_date": -1}],
+      "options": {"background": true}
+    },
+    {
+      "name": "fatalities_index",
+      "fields": [{"crash_details.fatalities_flag": 1}],
+      "options": {"background": true}
+    },
+    {
+      "name": "year_month_composite",
+      "fields": [
+        {"year": 1},
+        {"month": 1}
+      ],
+      "options": {"background": true}
+    },
+    {
+      "name": "weather_index",
+      "fields": [{"environmental_factors.weather": 1}],
+      "options": {"background": true}
+    }
+  ],
+  "validation_level": "moderate",
+  "validation_action": "warn"
+}

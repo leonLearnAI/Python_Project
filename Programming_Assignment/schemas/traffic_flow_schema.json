@@ -1,0 +1,117 @@
+{
+  "collection": "traffic_flow",
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "required": ["site", "date", "time_slot"],
+      "properties": {
+        "site": {
+          "bsonType": "string",
+          "description": "Traffic monitoring site ID"
+        },
+        "date": {
+          "bsonType": "date",
+          "description": "Date of measurement"
+        },
+        "day_of_week": {
+          "bsonType": "string",
+          "description": "Day of week abbreviation"
+        },
+        "time_slot": {
+          "bsonType": "object",
+          "properties": {
+            "start_time": {
+              "bsonType": "date",
+              "description": "Start time of measurement period"
+            },
+            "end_time": {
+              "bsonType": "date",
+              "description": "End time of measurement period"
+            },
+            "duration_minutes": {
+              "bsonType": "int",
+              "minimum": 1,
+              "maximum": 1440,
+              "description": "Duration in minutes"
+            }
+          }
+        },
+        "flow_metrics": {
+          "bsonType": "object",
+          "properties": {
+            "flow": {
+              "bsonType": "int",
+              "minimum": 0,
+              "description": "Vehicle flow count"
+            },
+            "flow_percent": {
+              "bsonType": "int",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "Flow percentage"
+            },
+            "congestion": {
+              "bsonType": "int",
+              "minimum": 0,
+              "description": "Congestion level"
+            },
+            "congestion_percent": {
+              "bsonType": "int",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "Congestion percentage"
+            },
+            "dsat": {
+              "bsonType": "int",
+              "minimum": 0,
+              "description": "Demand saturation"
+            },
+            "dsat_percent": {
+              "bsonType": "int",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "Demand saturation percentage"
+            }
+          }
+        },
+        "hour": {
+          "bsonType": "int",
+          "minimum": 0,
+          "maximum": 23,
+          "description": "Hour of measurement"
+        },
+        "metadata": {
+          "bsonType": "object",
+          "properties": {
+            "data_source": {
+              "bsonType": "string"
+            },
+            "processing_date": {
+              "bsonType": "date"
+            }
+          }
+        }
+      }
+    }
+  },
+  "indexes": [
+    {
+      "name": "site_date_composite",
+      "fields": [
+        {"site": 1},
+        {"date": -1}
+      ],
+      "options": {"background": true}
+    },
+    {
+      "name": "flow_metrics_index",
+      "fields": [{"flow_metrics.congestion": -1}],
+      "options": {"background": true}
+    },
+    {
+      "name": "hour_index",
+      "fields": [{"hour": 1}],
+      "options": {"background": true}
+    }
+  ]
+}

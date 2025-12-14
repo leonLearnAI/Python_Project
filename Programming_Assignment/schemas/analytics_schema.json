@@ -1,0 +1,496 @@
+{
+  "collection": "analytics_results",
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "required": ["analysis_date", "analysis_type"],
+      "properties": {
+        "analysis_date": {
+          "bsonType": "date",
+          "description": "Date and time of analysis"
+        },
+        "analysis_type": {
+          "bsonType": "string",
+          "enum": [
+            "comprehensive_traffic_analysis",
+            "temporal_analysis", 
+            "spatial_analysis",
+            "weather_impact_analysis",
+            "vehicle_analysis",
+            "correlation_analysis",
+            "trend_analysis",
+            "predictive_model"
+          ],
+          "description": "Type of analysis performed"
+        },
+        "analysis_name": {
+          "bsonType": "string",
+          "description": "Human-readable analysis name"
+        },
+        "time_period": {
+          "bsonType": "object",
+          "properties": {
+            "start_date": {
+              "bsonType": "date",
+              "description": "Start date of analyzed period"
+            },
+            "end_date": {
+              "bsonType": "date",
+              "description": "End date of analyzed period"
+            },
+            "duration_days": {
+              "bsonType": "int",
+              "minimum": 1,
+              "description": "Duration in days"
+            }
+          },
+          "description": "Time period covered by analysis"
+        },
+        "data_sources": {
+          "bsonType": "array",
+          "items": {
+            "bsonType": "string"
+          },
+          "description": "Data sources used in analysis"
+        },
+        "summary_metrics": {
+          "bsonType": "object",
+          "properties": {
+            "total_crashes_analyzed": {
+              "bsonType": "int",
+              "minimum": 0,
+              "description": "Total number of crashes analyzed"
+            },
+            "injury_crashes": {
+              "bsonType": "int",
+              "minimum": 0,
+              "description": "Number of injury crashes"
+            },
+            "fatal_crashes": {
+              "bsonType": "int",
+              "minimum": 0,
+              "description": "Number of fatal crashes"
+            },
+            "crash_severity_index": {
+              "bsonType": "double",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Overall crash severity index"
+            },
+            "peak_crash_hour": {
+              "bsonType": "int",
+              "minimum": 0,
+              "maximum": 23,
+              "description": "Hour with highest crash frequency"
+            },
+            "most_common_weather": {
+              "bsonType": "string",
+              "description": "Most common weather condition"
+            },
+            "most_common_severity": {
+              "bsonType": "string",
+              "description": "Most common injury severity"
+            },
+            "average_speed_limit": {
+              "bsonType": "double",
+              "minimum": 0,
+              "description": "Average speed limit at crash sites"
+            }
+          }
+        },
+        "temporal_analysis": {
+          "bsonType": "object",
+          "properties": {
+            "hourly_distribution": {
+              "bsonType": "object",
+              "additionalProperties": {
+                "bsonType": "int",
+                "minimum": 0
+              },
+              "description": "Crashes by hour of day"
+            },
+            "weekday_distribution": {
+              "bsonType": "object",
+              "additionalProperties": {
+                "bsonType": "int",
+                "minimum": 0
+              },
+              "description": "Crashes by day of week"
+            },
+            "monthly_distribution": {
+              "bsonType": "object",
+              "additionalProperties": {
+                "bsonType": "int",
+                "minimum": 0
+              },
+              "description": "Crashes by month"
+            },
+            "peak_hours": {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "int",
+                "minimum": 0,
+                "maximum": 23
+              },
+              "description": "Peak crash hours"
+            },
+            "weekend_weekday_ratio": {
+              "bsonType": "double",
+              "minimum": 0,
+              "description": "Weekend to weekday crash ratio"
+            }
+          }
+        },
+        "weather_analysis": {
+          "bsonType": "object",
+          "properties": {
+            "weather_distribution": {
+              "bsonType": "object",
+              "additionalProperties": {
+                "bsonType": "int",
+                "minimum": 0
+              },
+              "description": "Crashes by weather condition"
+            },
+            "clear_weather_crashes": {
+              "bsonType": "int",
+              "minimum": 0,
+              "description": "Crashes in clear weather"
+            },
+            "adverse_weather_crashes": {
+              "bsonType": "int",
+              "minimum": 0,
+              "description": "Crashes in adverse weather"
+            },
+            "weather_severity_correlation": {
+              "bsonType": "object",
+              "additionalProperties": {
+                "bsonType": "double",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "description": "Correlation between weather and severity"
+            }
+          }
+        },
+        "vehicle_analysis": {
+          "bsonType": "object",
+          "properties": {
+            "top_vehicle_makes": {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "object",
+                "properties": {
+                  "make": {
+                    "bsonType": "string",
+                    "description": "Vehicle make"
+                  },
+                  "count": {
+                    "bsonType": "int",
+                    "minimum": 0,
+                    "description": "Number of crashes"
+                  },
+                  "percentage": {
+                    "bsonType": "double",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "description": "Percentage of total"
+                  }
+                }
+              },
+              "description": "Top vehicle makes involved in crashes"
+            },
+            "vehicle_age_distribution": {
+              "bsonType": "object",
+              "additionalProperties": {
+                "bsonType": "int",
+                "minimum": 0
+              },
+              "description": "Crashes by vehicle age"
+            },
+            "average_vehicle_year": {
+              "bsonType": "double",
+              "minimum": 1900,
+              "description": "Average vehicle manufacturing year"
+            }
+          }
+        },
+        "spatial_analysis": {
+          "bsonType": "object",
+          "properties": {
+            "crash_density_by_area": {
+              "bsonType": "object",
+              "additionalProperties": {
+                "bsonType": "double",
+                "minimum": 0
+              },
+              "description": "Crash density by geographic area"
+            },
+            "hotspots": {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "object",
+                "properties": {
+                  "location": {
+                    "bsonType": "array",
+                    "items": {
+                      "bsonType": "double"
+                    },
+                    "minItems": 2,
+                    "maxItems": 2,
+                    "description": "[longitude, latitude] coordinates"
+                  },
+                  "crash_count": {
+                    "bsonType": "int",
+                    "minimum": 0,
+                    "description": "Number of crashes at hotspot"
+                  },
+                  "severity_index": {
+                    "bsonType": "double",
+                    "minimum": 0,
+                    "description": "Severity index for hotspot"
+                  }
+                }
+              },
+              "description": "Crash hotspots"
+            },
+            "high_risk_locations": {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "object",
+                "properties": {
+                  "road_name": {
+                    "bsonType": "string",
+                    "description": "Road name"
+                  },
+                  "crash_count": {
+                    "bsonType": "int",
+                    "minimum": 0
+                  },
+                  "injury_rate": {
+                    "bsonType": "double",
+                    "minimum": 0,
+                    "maximum": 100
+                  }
+                }
+              },
+              "description": "High risk road locations"
+            }
+          }
+        },
+        "correlation_analysis": {
+          "bsonType": "object",
+          "properties": {
+            "flow_crash_correlation": {
+              "bsonType": "double",
+              "minimum": -1,
+              "maximum": 1,
+              "description": "Correlation between traffic flow and crashes"
+            },
+            "congestion_crash_correlation": {
+              "bsonType": "double",
+              "minimum": -1,
+              "maximum": 1,
+              "description": "Correlation between congestion and crashes"
+            },
+            "weather_severity_correlation": {
+              "bsonType": "double",
+              "minimum": -1,
+              "maximum": 1,
+              "description": "Correlation between weather and injury severity"
+            },
+            "time_crash_correlation": {
+              "bsonType": "object",
+              "additionalProperties": {
+                "bsonType": "double",
+                "minimum": -1,
+                "maximum": 1
+              },
+              "description": "Correlation by time factors"
+            }
+          }
+        },
+        "predictive_insights": {
+          "bsonType": "object",
+          "properties": {
+            "risk_factors": {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "object",
+                "properties": {
+                  "factor": {
+                    "bsonType": "string",
+                    "description": "Risk factor name"
+                  },
+                  "risk_score": {
+                    "bsonType": "double",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Risk score"
+                  },
+                  "impact": {
+                    "bsonType": "string",
+                    "enum": ["high", "medium", "low"],
+                    "description": "Impact level"
+                  }
+                }
+              },
+              "description": "Identified risk factors"
+            },
+            "predicted_trends": {
+              "bsonType": "object",
+              "properties": {
+                "trend_direction": {
+                  "bsonType": "string",
+                  "enum": ["increasing", "decreasing", "stable"],
+                  "description": "Overall trend direction"
+                },
+                "confidence_level": {
+                  "bsonType": "double",
+                  "minimum": 0,
+                  "maximum": 1,
+                  "description": "Confidence in predictions"
+                },
+                "next_month_prediction": {
+                  "bsonType": "int",
+                  "minimum": 0,
+                  "description": "Predicted crashes for next month"
+                }
+              }
+            },
+            "recommendations": {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string"
+              },
+              "description": "Safety recommendations"
+            }
+          }
+        },
+        "charts_and_visualizations": {
+          "bsonType": "object",
+          "properties": {
+            "chart_files": {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string"
+              },
+              "description": "Generated chart file names"
+            },
+            "chart_types": {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string"
+              },
+              "description": "Types of charts generated"
+            },
+            "interactive_dashboard": {
+              "bsonType": "bool",
+              "description": "Whether interactive dashboard was created"
+            }
+          }
+        },
+        "metadata": {
+          "bsonType": "object",
+          "properties": {
+            "analysis_version": {
+              "bsonType": "string",
+              "description": "Analysis algorithm version"
+            },
+            "processing_time_seconds": {
+              "bsonType": "double",
+              "minimum": 0,
+              "description": "Time taken to run analysis"
+            },
+            "hardware_used": {
+              "bsonType": "string",
+              "description": "Hardware specifications"
+            },
+            "software_dependencies": {
+              "bsonType": "object",
+              "additionalProperties": {
+                "bsonType": "string"
+              },
+              "description": "Software versions used"
+            },
+            "analyst": {
+              "bsonType": "string",
+              "description": "Name of analyst or system"
+            },
+            "quality_score": {
+              "bsonType": "double",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Data quality score"
+            },
+            "completeness_score": {
+              "bsonType": "double",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Data completeness score"
+            }
+          }
+        },
+        "raw_data_summary": {
+          "bsonType": "object",
+          "properties": {
+            "crash_records_count": {
+              "bsonType": "int",
+              "minimum": 0
+            },
+            "traffic_flow_records_count": {
+              "bsonType": "int",
+              "minimum": 0
+            },
+            "incidents_records_count": {
+              "bsonType": "int",
+              "minimum": 0
+            },
+            "data_coverage": {
+              "bsonType": "object",
+              "additionalProperties": {
+                "bsonType": "double",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "description": "Data coverage percentages"
+            }
+          }
+        }
+      }
+    }
+  },
+  "indexes": [
+    {
+      "name": "analysis_date_desc",
+      "fields": [{"analysis_date": -1}],
+      "options": {
+        "background": true,
+        "expireAfterSeconds": 2592000
+      }
+    },
+    {
+      "name": "analysis_type_index",
+      "fields": [{"analysis_type": 1}],
+      "options": {"background": true}
+    },
+    {
+      "name": "composite_date_type",
+      "fields": [
+        {"analysis_date": -1},
+        {"analysis_type": 1}
+      ],
+      "options": {"background": true}
+    },
+    {
+      "name": "time_period_index",
+      "fields": [{"time_period.end_date": -1}],
+      "options": {"background": true}
+    }
+  ],
+  "validation_level": "moderate",
+  "validation_action": "warn",
+  "capped": false,
+  "max": 10000,
+  "size": 10737418240
+}
