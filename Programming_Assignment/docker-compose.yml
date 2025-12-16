@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: team_6_postgres
+    environment:
+      POSTGRES_DB: analytics_db
+      POSTGRES_USER: dap
+      POSTGRES_PASSWORD: dap
+    ports:
+      - "5432:5432"
+    volumes:
+      - team_6_pgdata:/var/lib/postgresql/data
+
+volumes:
+  team_6_pgdata:
