@@ -8,8 +8,8 @@ venv/
 .env
 
 # Data (keep sample only)
-data/raw/
-data/processed/
+# data/raw/
+# data/processed/
 
 # Jupyter
 .ipynb_checkpoints/
@@ -18,5 +18,5 @@ data/processed/
 .DS_Store
 
 # Outputs
-results/figures/
-results/outputs/
+# results/figures/
+# results/outputs/
