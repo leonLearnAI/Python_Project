@@ -10,7 +10,7 @@ project_root = Path(__file__).resolve().parent
 sys.path.append(str(project_root))
 
 from pymongo import MongoClient
-from settings import (
+from utils.settings import (
     MONGODB_CONFIG, 
     SCHEMA_FILES,
     COLLECTIONS,
@@ -18,12 +18,12 @@ from settings import (
     PROCESSING_CONFIG,
     ANALYSIS_CONFIG
 )
-from schema_manager import SchemaManager
-from data_analysis import TrafficAnalysisEngine
-from data_visualization import TrafficVisualizationEngine
+from storage.schema_manager import SchemaManager
+from analysis.data_analysis import TrafficAnalysisEngine
+from analysis.data_visualization import TrafficVisualizationEngine
+from preprocessing.data_processor import TrafficDataProcessor
 import json
 from datetime import datetime
-from data_processor import TrafficDataProcessor
 
 
 def main():

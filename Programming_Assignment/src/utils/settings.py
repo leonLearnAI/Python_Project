@@ -6,10 +6,10 @@ import os
 from pathlib import Path
 
 # Base paths
-BASE_DIR = Path(__file__).resolve().parent
-SCHEMAS_DIR = BASE_DIR / "schemas"
-DATA_DIR = BASE_DIR / "data"
-REPORTS_DIR = BASE_DIR / "reports"
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+SCHEMAS_DIR = BASE_DIR / "database/nosql"
+DATA_DIR = BASE_DIR / "data/raw"
+REPORTS_DIR = BASE_DIR / "results/reports"
 LOGS_DIR = BASE_DIR / "logs"
 
 # Ensure directories exist
