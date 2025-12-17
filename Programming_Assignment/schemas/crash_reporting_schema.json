@@ -1,0 +1,207 @@
+{
+  "collection": "crash_reports",
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "required": ["report_number", "crash_datetime"],
+      "properties": {
+        "report_number": {
+          "bsonType": "string",
+          "description": "Unique report identifier"
+        },
+        "local_case_number": {
+          "bsonType": "string",
+          "description": "Local agency case number"
+        },
+        "agency_name": {
+          "bsonType": "string",
+          "description": "Reporting agency name"
+        },
+        "acrs_report_type": {
+          "bsonType": "string",
+          "description": "ACRS report type classification"
+        },
+        "crash_datetime": {
+          "bsonType": "date",
+          "description": "Date and time of crash"
+        },
+        "route_info": {
+          "bsonType": "object",
+          "properties": {
+            "route_type": {
+              "bsonType": "string",
+              "description": "Type of road/route"
+            },
+            "road_name": {
+              "bsonType": "string",
+              "description": "Name of the road"
+            },
+            "cross_street": {
+              "bsonType": ["string", "null"],
+              "description": "Cross street name"
+            },
+            "municipality": {
+              "bsonType": ["string", "null"],
+              "description": "Municipality where crash occurred"
+            },
+            "off_road_desc": {
+              "bsonType": ["string", "null"],
+              "description": "Off-road description"
+            }
+          }
+        },
+        "environmental_conditions": {
+          "bsonType": "object",
+          "properties": {
+            "weather": {
+              "bsonType": ["string", "null"],
+              "description": "Weather condition at time of crash"
+            },
+            "surface_condition": {
+              "bsonType": ["string", "null"],
+              "description": "Road surface condition"
+            },
+            "light_condition": {
+              "bsonType": ["string", "null"],
+              "description": "Lighting conditions"
+            },
+            "traffic_control": {
+              "bsonType": ["string", "null"],
+              "description": "Traffic control present"
+            }
+          }
+        },
+        "collision_details": {
+          "bsonType": "object",
+          "properties": {
+            "collision_type": {
+              "bsonType": ["string", "null"],
+              "description": "Type of collision"
+            },
+            "driver_at_fault": {
+              "bsonType": ["string", "null"],
+              "description": "Was driver at fault?"
+            },
+            "injury_severity": {
+              "bsonType": ["string", "null"],
+              "description": "Severity of injuries"
+            }
+          }
+        },
+        "vehicle_info": {
+          "bsonType": "array",
+          "items": {
+            "bsonType": "object",
+            "properties": {
+              "vehicle_id": {
+                "bsonType": ["string", "null"]
+              },
+              "vehicle_make": {
+                "bsonType": ["string", "null"]
+              },
+              "vehicle_model": {
+                "bsonType": ["string", "null"]
+              },
+              "vehicle_year": {
+                "bsonType": ["int", "null"],
+                "minimum": 1900,
+                "maximum": 2025
+              },
+              "speed_limit": {
+                "bsonType": ["int", "null"],
+                "minimum": 0,
+                "maximum": 150
+              }
+            }
+          }
+        },
+        "location": {
+          "bsonType": ["object", "null"],
+          "properties": {
+            "type": {
+              "bsonType": "string",
+              "enum": ["Point"]
+            },
+            "coordinates": {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "double"
+              },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          }
+        },
+        "temporal_features": {
+          "bsonType": "object",
+          "properties": {
+            "year": {
+              "bsonType": ["int", "null"]
+            },
+            "month": {
+              "bsonType": ["int", "null"]
+            },
+            "hour": {
+              "bsonType": ["int", "null"]
+            },
+            "weekday": {
+              "bsonType": ["string", "null"]
+            },
+            "is_weekend": {
+              "bsonType": ["bool", "null"]
+            }
+          }
+        },
+        "metadata": {
+          "bsonType": "object",
+          "properties": {
+            "created_date": {
+              "bsonType": "date"
+            },
+            "last_updated": {
+              "bsonType": "date"
+            },
+            "data_source": {
+              "bsonType": "string"
+            },
+            "processing_version": {
+              "bsonType": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "indexes": [
+    {
+      "name": "crash_datetime_desc",
+      "fields": [{"crash_datetime": -1}],
+      "options": {"background": true}
+    },
+    {
+      "name": "injury_severity_index",
+      "fields": [{"collision_details.injury_severity": 1}],
+      "options": {"background": true}
+    },
+    {
+      "name": "location_2dsphere",
+      "fields": [{"location.coordinates": "2dsphere"}],
+      "options": {"background": true}
+    },
+    {
+      "name": "temporal_hour_index",
+      "fields": [{"temporal_features.hour": 1}],
+      "options": {"background": true}
+    },
+    {
+      "name": "composite_datetime_weather",
+      "fields": [
+        {"crash_datetime": 1},
+        {"environmental_conditions.weather": 1}
+      ],
+      "options": {"background": true}
+    }
+  ],
+  "validation_level": "moderate",
+  "validation_action": "warn"
+}
